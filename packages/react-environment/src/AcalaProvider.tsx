@@ -7,6 +7,7 @@ import { BareProps } from '@acala-dapp/ui-components/types';
 import { SettingProvider } from './SettingProvider';
 import { RxStoreProvider } from './RxStore';
 import './i18n';
+import { StoreProvier } from './Store';
 
 interface AcalaProviderProps extends BareProps {
   applicationName: string;
@@ -25,15 +26,17 @@ export const AcalaProvider: FC<AcalaProviderProps> = ({
           NoAccounts={<NoAccounts />}
           NoExtensions={<NoExtensions />}
         >
-          <RxStoreProvider>
-            <GlobalStoreProvider>
-              <>
-                {children}
-                <ConnectStatus />
-                <AppSettings />
-              </>
-            </GlobalStoreProvider>
-          </RxStoreProvider>
+          <StoreProvier>
+            <RxStoreProvider>
+              <GlobalStoreProvider>
+                <>
+                  {children}
+                  <ConnectStatus />
+                  <AppSettings />
+                </>
+              </GlobalStoreProvider>
+            </RxStoreProvider>
+          </StoreProvier>
         </AccountProvider>
       </ApiProvider>
     </SettingProvider>

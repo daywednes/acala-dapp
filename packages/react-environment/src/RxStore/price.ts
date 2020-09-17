@@ -21,8 +21,7 @@ export class PriceStore extends BaseRxStore {
 
   run (): void {
     const nativeCurrency = this.api.consts.currencies.nativeCurrencyId as unknown as CurrencyId;
-    const allPrices$ = interval(1000 * 60).pipe(startWith(0), mergeMap(() => (this.api.rpc as any).oracle.getAllValues())) as Observable<[[OracleKey, TimestampedValue]]>;
-    // const allPrices$ = (this.api.rpc as any).oracle.getAllPrices() as Observable<DerivedPrice[]>;
+    const allPrices$ = interval(1000 * 60).pipe(startWith(0), mergeMap(() => (this.api.rpc as any).oracle.getAllValues('Aggregated'))) as Observable<[[OracleKey, TimestampedValue]]>;
     const dex$ = (this.api.derive as any).dex.pool(nativeCurrency) as Observable<DerivedDexPool>;
 
     this.data$ = combineLatest([allPrices$, this.stakingPool$, dex$]).pipe(

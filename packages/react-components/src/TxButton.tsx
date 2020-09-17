@@ -3,7 +3,6 @@ import { isFunction, uniqueId } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, timeout, finalize, take, catchError } from 'rxjs/operators';
 
-import { web3FromAddress } from '@polkadot/extension-dapp';
 import { SubmittableResult, ApiRx } from '@polkadot/api';
 import { ITuple, ISubmittableResult } from '@polkadot/types/types';
 import { DispatchError, AccountInfo } from '@polkadot/types/interfaces';
@@ -11,9 +10,9 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import { useAccounts, useApi, useHistory, useAllBalances } from '@acala-dapp/react-hooks';
 import { Button, ButtonProps, notification, LoadingOutlined } from '@acala-dapp/ui-components';
+import { CurrencyLike } from '@acala-dapp/react-hooks/types';
 
 import { FormatAddress } from './format';
-import { CurrencyLike } from '@acala-dapp/react-hooks/types';
 
 interface Props extends ButtonProps {
   api?: ApiRx;
@@ -96,14 +95,6 @@ export const TxButton: FC<PropsWithChildren<Props>> = ({
         setAuthRequired(true);
       }
 
-      return;
-    }
-
-    try {
-      const injector = await web3FromAddress(_signAddress);
-
-      _api.setSigner(injector.signer);
-    } catch (e) {
       return;
     }
 
