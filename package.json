@@ -13,7 +13,10 @@
     "@acala-network/api": "0.4.0-beta.7",
     "@acala-network/types": "0.4.0-beta.7",
     "@acala-network/app-util": "0.4.0-beta.7",
-    "@acala-network/api-derive": "0.4.0-beta.7"
+    "@acala-network/api-derive": "0.4.0-beta.7",
+    "rxjs": "^6.6.3",
+    "@polkadot/api": "1.35.0-beta.1",
+    "@polkadot/types": "1.35.0-beta.1"
   },
   "scripts": {
     "start:dapp": "cd packages/apps && react-app-rewired start",

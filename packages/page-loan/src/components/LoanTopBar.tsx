@@ -67,7 +67,7 @@ const LoanOverview: FC = () => {
         classes.item,
         classes.overview,
         {
-          [classes.active]: currentTab === 'overview',
+          [classes.active]: currentTab === 'overview'
         }
       )}
       onClick={showOverview}

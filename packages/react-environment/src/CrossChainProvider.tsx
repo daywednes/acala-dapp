@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, FC } from 'react';
 import { Observable, of, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { web3FromAddress } from '@polkadot/extension-dapp';
-
-import { map } from 'rxjs/operators';
 import { ApiRx, WsProvider } from '@polkadot/api';
-import { } from '@polkadot/types';
 import { Fixed18 } from '@acala-network/app-util';
+
 import { BareProps } from '@acala-dapp/ui-components/types';
 
 export interface CrossChainContextData {
@@ -54,7 +53,8 @@ export const CrossChainProvider: FC<BareProps> = ({ children }) => {
     if (!api) return of(Fixed18.ZERO);
 
     return combineLatest([api.rpc.system.properties(), api.query.system.account(account)]).pipe(
-      map(([properties, result]) => {
+      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+      map(([_, result]) => {
         if (result.isEmpty) return Fixed18.ZERO;
 
         return Fixed18.fromParts(result.data.free.toString() + '000000');

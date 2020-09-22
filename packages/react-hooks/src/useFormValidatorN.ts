@@ -3,7 +3,6 @@ import { getTokenName, isValidateAddress } from '@acala-dapp/react-components';
 
 import { CurrencyLike } from './types';
 import { useBalance } from './balanceHooks';
-import { getFormValidator } from './useFormValidator';
 
 interface UseBalanceValidatorConfig {
   currency: CurrencyLike;
@@ -18,8 +17,6 @@ export const useBalanceValidator = (config: UseBalanceValidatorConfig): () => Pr
     const value = config.getFieldValue(config.fieldName);
 
     if (Fixed18.fromNatural(value).isGreaterThan(balance)) {
-      console.log('error');
-
       return Promise.reject(new Error(`Insufficient ${getTokenName(config.currency)} Balance`));
     }
 

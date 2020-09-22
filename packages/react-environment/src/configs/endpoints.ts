@@ -1,6 +1,4 @@
 /* eslint-disable sort-keys */
-
-
 export type EndpointType = 'testnet' | 'production' | 'development';
 
 export interface EndpointConfigItem {
@@ -24,10 +22,4 @@ export const DEFAULT_ENDPOINTS: EndpointConfig = {
       url: 'ws://127.0.0.1:9944'
     }
   ]
-};
-
-export const createProvider = (endpoint: string): WsProvider => {
-  const ws = new WsProvider(endpoint);
-
-  return ws;
 };

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ApiRx } from '@polkadot/api';
 import { interval, Observable, combineLatest } from 'rxjs'
 import { startWith, mergeMap } from 'rxjs/operators'

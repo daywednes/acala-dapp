@@ -1,42 +1,48 @@
+import { useState, useEffect } from 'react';
 import AccountId from '@polkadot/types/generic/AccountId';
 import { convertToFixed18, Fixed18 } from '@acala-network/app-util';
 import { Balance } from '@polkadot/types/interfaces';
+import { PoolInfo, Share } from '@open-web3/orml-types/interfaces';
 
 import { useCall } from './useCall';
-import { useDexShare } from './useDexShare';
 import { useAccounts } from './useAccounts';
 import { useConstants } from './useConstants';
 import { CurrencyLike } from './types';
 
 interface DexRewardData {
-  amount: number;
+  amount: Fixed18;
   token: CurrencyLike;
   rewardRatio: Fixed18;
 }
 
-export const useDexReward = (token: CurrencyLike, account?: AccountId | string): DexRewardData => {
+export const useDexReward = (currency: CurrencyLike, account?: AccountId | string): DexRewardData => {
   const { active } = useAccounts();
   const _account = account || (active ? active.address : '');
-  const totalInterest = useCall<[Balance, Balance]>('query.dex.totalInterest', [token]);
-  const { share, totalShares } = useDexShare(token, _account);
-  const withdrawnInterest = useCall<Balance>('query.dex.withdrawnInterest', [token, _account]);
-  const liquidityIncentiveRate = useCall<Balance>('query.dex.liquidityIncentiveRate', [token]);
+
+  const rewardsPoolInfo = useCall<PoolInfo>('query.rewards.pools', [{ DexSaving: currency }]);
+  const shareAndWithdrawnReward = useCall<[Share, Balance]>('query.rewards.shareAndWithdrawnReward', [{ DexSaving: currency }, _account]);
+  const dexSavingRates = useCall<Balance>('query.incentives.dEXSavingRates', [currency]);
   const { dexBaseCurrency } = useConstants();
 
-  let amount = 0;
+  const [amount, setAmount] = useState<Fixed18>(Fixed18.ZERO);
 
-  if (totalInterest && share && totalShares) {
-    const _totalInterest = convertToFixed18(totalInterest[0]);
-    const _share = convertToFixed18(share);
-    const _totalShares = convertToFixed18(totalShares);
-    const _withdrawnInterest = convertToFixed18(withdrawnInterest || 0);
+  useEffect(() => {
+    if (!rewardsPoolInfo) return;
+    if (!shareAndWithdrawnReward) return;
 
-    amount = _share.div(_totalShares).mul(_totalInterest).sub(_withdrawnInterest).toNumber();
-  }
+    const totalRewards = convertToFixed18(rewardsPoolInfo.totalRewards);
+    const withdrawnReward = convertToFixed18(shareAndWithdrawnReward[1]);
+    const shares = convertToFixed18(shareAndWithdrawnReward[0]);
+    const totalShares = convertToFixed18(rewardsPoolInfo.totalShares);
+
+    setAmount(
+      shares.div(totalShares).mul(totalRewards).sub(withdrawnReward)
+    );
+  }, [setAmount, rewardsPoolInfo, shareAndWithdrawnReward]);
 
   return {
     amount,
-    rewardRatio: convertToFixed18(liquidityIncentiveRate || 0).div(Fixed18.fromNatural(2)),
+    rewardRatio: convertToFixed18(dexSavingRates || 0).div(Fixed18.fromNatural(2)),
     token: dexBaseCurrency
   };
 };

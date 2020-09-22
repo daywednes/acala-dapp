@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CurrencyId, Balance } from '@acala-network/types/interfaces';
+import { PoolInfo, Share } from '@open-web3/orml-types/interfaces';
 import { convertToFixed18, Fixed18 } from '@acala-network/app-util';
 import { DerivedDexPool } from '@acala-network/api-derive';
 
@@ -41,20 +41,18 @@ export const useDexTotalUserReward = (): HooksReturnType => {
 
     const getReward$ = (currency: CurrencyId): Observable<Fixed18> => {
       return combineLatest([
-        api.query.dex.totalInterest<[Balance, Balance]>(currency),
-        api.query.dex.withdrawnInterest<Balance>(currency, active.address),
-        api.query.dex.shares<Balance>(currency, active.address),
-        api.query.dex.totalShares<Balance>(currency)
+        api.query.rewards.pools<PoolInfo>({ DexSaving: currency } as any),
+        api.query.rewards.shareAndWithdrawnReward<[Share, Balance]>({ DexSaving: currency } as any, active.address)
       ]).pipe(
-        map(([[_totalInterest], _withdrawnInterest, _shares, _totalShares]) => {
-          const totalInterest = convertToFixed18(_totalInterest);
-          const withdrawnInterest = convertToFixed18(_withdrawnInterest);
+        map(([poolInfo, [_shares, _withdrawnReward]]) => {
+          const totalInterest = convertToFixed18(poolInfo.totalRewards);
+          const withdrawnReward = convertToFixed18(_withdrawnReward);
           const shares = convertToFixed18(_shares);
-          const totalShares = convertToFixed18(_totalShares);
+          const totalShares = convertToFixed18(poolInfo.totalShares);
 
           if (totalShares.isZero()) return Fixed18.ZERO;
 
-          return totalInterest.mul(shares.div(totalShares)).sub(withdrawnInterest);
+          return totalInterest.mul(shares.div(totalShares)).sub(withdrawnReward);
         })
       );
     };
@@ -89,10 +87,10 @@ export const useDexTotalSystemReward = (): HooksReturnType => {
     if (!api) return;
 
     const getReward$ = (currency: CurrencyId): Observable<Fixed18> => {
-      return api.query.dex.totalInterest<[Balance, Balance]>(currency).pipe(
-        map(([_totalInterest, _withdrawnInterest]) => {
-          const totalInterest = convertToFixed18(_totalInterest);
-          const withdrawnInterest = convertToFixed18(_withdrawnInterest);
+      return api.query.rewards.pools<PoolInfo>({ DexSaving: currency } as any).pipe(
+        map((poolInfo) => {
+          const totalInterest = convertToFixed18(poolInfo.totalRewards);
+          const withdrawnInterest = convertToFixed18(poolInfo.totalWithdrawnRewards);
 
           return totalInterest.sub(withdrawnInterest);
         })
@@ -138,8 +136,8 @@ export const useDexTotalUserDeposit = (): HooksReturnType => {
 
       return combineLatest([
         (api.derive as any).dex.pool(currency) as Observable<DerivedDexPool>,
-        api.query.dex.shares<Balance>(currency, active.address),
-        api.query.dex.totalShares<Balance>(currency)
+        api.query.dex.shares<Balance>(currency as any, active.address),
+        api.query.dex.totalShares<Balance>(currency as any)
       ]).pipe(
         map(([pool, _shares, _totalShares]) => {
           const base = convertToFixed18(pool.base);

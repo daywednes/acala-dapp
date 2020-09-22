@@ -22,11 +22,11 @@ export const DepositProvider: FC<BareProps> = memo(({ children }) => {
   const [action, _setAction] = useState<ACTION_TYPE>('deposit');
   const { isInitialized, setEnd } = useInitialize();
 
-  const enabledCurrencyIds = useMemo(() => api?.consts.dex.enabledCurrencyIds as Vec<CurrencyId>, [api]);
+  const enabledCurrencyIds = useMemo(() => api?.consts.dex.enabledCurrencyIds as unknown as Vec<CurrencyId>, [api]);
 
-  const baseCurrencyId = useMemo(() => api?.consts.dex.getBaseCurrencyId as CurrencyId, [api]);
+  const baseCurrencyId = useMemo(() => api?.consts.dex.getBaseCurrencyId as unknown as CurrencyId, [api]);
 
-  const exchangeFee = useMemo(() => api?.consts.dex.getExchangeFee as Rate, [api]);
+  const exchangeFee = useMemo(() => api?.consts.dex.getExchangeFee as unknown as Rate, [api]);
 
   const exchangeRate = useDexExchangeRate(enabledCurrencyIds[0]);
 

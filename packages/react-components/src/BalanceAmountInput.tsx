@@ -12,7 +12,7 @@ import { SwitchIcon, Condition } from '@acala-dapp/ui-components';
 import classes from './BalanceAmountInput.module.scss';
 import { BalanceInput } from './BalanceInput';
 import { TokenName } from './Token';
-import { FormatFixed18, FormatValue } from './format';
+import { FormatValue } from './format';
 
 type InputType = 'balance' | 'amount';
 

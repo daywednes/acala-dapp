@@ -53,6 +53,7 @@
   },
   "exclude": [
     "build/**/*",
-    "**/build/**/*"
+    "**/build/**/*",
+    "scripts/*"
   ]
 }

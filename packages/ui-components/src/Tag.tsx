@@ -8,7 +8,7 @@ type Type = 'normal' | 'flag';
 
 export interface TagProps extends BareProps {
   style?: Style;
-  type?: type;
+  type?: Type;
   onClick?: () => void;
 }
 

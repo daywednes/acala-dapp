@@ -8,7 +8,7 @@ import { ITuple, ISubmittableResult } from '@polkadot/types/types';
 import { DispatchError, AccountInfo } from '@polkadot/types/interfaces';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import { useAccounts, useApi, useHistory, useAllBalances } from '@acala-dapp/react-hooks';
+import { useAccounts, useApi, useHistory } from '@acala-dapp/react-hooks';
 import { Button, ButtonProps, notification, LoadingOutlined } from '@acala-dapp/ui-components';
 import { CurrencyLike } from '@acala-dapp/react-hooks/types';
 
@@ -56,7 +56,6 @@ export const TxButton: FC<PropsWithChildren<Props>> = ({
   const { active, authRequired, setAuthRequired } = useAccounts();
   const [isSending, setIsSending] = useState<boolean>(false);
   const { refresh } = useHistory();
-  const allBalances = useAllBalances();
 
   const _signAddress = useMemo(() => {
     if (signAddress) return signAddress;

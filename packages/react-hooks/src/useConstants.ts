@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { CurrencyId } from '@acala-network/types/interfaces';
 import { Vec } from '@polkadot/types';
+import { Codec } from '@polkadot/types/types';
 
 import { useApi } from './useApi';
 import { Fixed18, convertToFixed18 } from '@acala-network/app-util';
@@ -57,32 +58,32 @@ export const useConstants = (): HooksReturnType => {
     });
   }, [api]);
 
-  const loanCurrencies = useMemo(() => (api.consts.cdpEngine.collateralCurrencyIds as Vec<CurrencyId>)
+  const loanCurrencies = useMemo(() => (api.consts.cdpEngine.collateralCurrencyIds as unknown as Vec<CurrencyId>)
     .sort((a, b): number => (LOAN_CURRENCIES_WEIGHT.get(b.toString()) || 0) - (LOAN_CURRENCIES_WEIGHT.get(a.toString()) || 0)), [api]);
 
   // all currencies in dex
-  const dexCurrencies = useMemo(() => api.consts.dex.enabledCurrencyIds as Vec<CurrencyId>, [api]);
+  const dexCurrencies = useMemo(() => api.consts.dex.enabledCurrencyIds as unknown as Vec<CurrencyId>, [api]);
 
   // dex base currency
-  const dexBaseCurrency = useMemo(() => api.consts.dex.getBaseCurrencyId as CurrencyId, [api]);
+  const dexBaseCurrency = useMemo(() => api.consts.dex.getBaseCurrencyId as unknown as CurrencyId, [api]);
 
   // stable currency id
-  const stableCurrency = useMemo(() => api.consts.cdpEngine.getStableCurrencyId as CurrencyId, [api]);
+  const stableCurrency = useMemo(() => api.consts.cdpEngine.getStableCurrencyId as unknown as CurrencyId, [api]);
 
   // native currency id
-  const nativeCurrency = useMemo(() => api.consts.currencies.nativeCurrencyId as CurrencyId, [api]);
+  const nativeCurrency = useMemo(() => api.consts.currencies.nativeCurrencyId as unknown as CurrencyId, [api]);
 
   // expect block time
   const expectedBlockTime = useMemo(() => api.consts.babe.expectedBlockTime.toNumber(), [api]);
 
   // loan minmum debit value
-  const minmumDebitValue = useMemo<Fixed18>(() => convertToFixed18(api.consts.cdpEngine.minimumDebitValue), [api]);
+  const minmumDebitValue = useMemo<Fixed18>(() => convertToFixed18(api.consts.cdpEngine.minimumDebitValue as unknown as Codec), [api]);
 
   // staking currency
-  const stakingCurrency = useMemo(() => api.consts.stakingPool.stakingCurrencyId as CurrencyId, [api]);
+  const stakingCurrency = useMemo(() => api.consts.stakingPool.stakingCurrencyId as unknown as CurrencyId, [api]);
 
   // liquid currency
-  const liquidCurrency = useMemo(() => api.consts.stakingPool.liquidCurrencyId as CurrencyId, [api]);
+  const liquidCurrency = useMemo(() => api.consts.stakingPool.liquidCurrencyId as unknown as CurrencyId, [api]);
 
   return {
     allCurrencies,

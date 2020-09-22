@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useMemo } from 'react';
+import React, { FC, ReactElement } from 'react';
 
 import { CurrencyLike } from '@acala-dapp/react-hooks/types';
 import { TokenImage, TokenName, TokenFullName } from '@acala-dapp/react-components';

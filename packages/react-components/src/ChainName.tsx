@@ -1,5 +1,4 @@
 import React, { FC, useCallback } from 'react';
-import { isEmpty } from 'lodash';
 import clsx from 'clsx';
 
 import { useApi, useModal } from '@acala-dapp/react-hooks';

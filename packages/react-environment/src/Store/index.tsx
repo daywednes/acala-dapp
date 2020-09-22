@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { createContext, FC, useEffect } from 'react';
 
 import { Fixed18 } from '@acala-network/app-util';

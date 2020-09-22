@@ -154,6 +154,5 @@ export function useFormValidator<T extends any> (_config: Config): (values: T) =
     return getFormValidator(_config, api, active, allBalance);
   }, [api, active, allBalance, _config]);
 
-
   return formValidator;
 }
