@@ -1,4 +1,5 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
+import { isEmpty } from 'lodash';
 import clsx from 'clsx';
 
 import { useApi, useModal } from '@acala-dapp/react-hooks';
@@ -11,7 +12,7 @@ import classes from './ChainName.module.scss';
 import { SelectNetwork } from './SelectNetwork';
 
 export const ChainName: FC<BareProps> = ({ className }) => {
-  const { chain, loading } = useApi();
+  const { chainInfo, loading } = useApi();
   const { close, open, status } = useModal();
 
   const openChainSelect = useCallback(() => {
@@ -30,7 +31,7 @@ export const ChainName: FC<BareProps> = ({ className }) => {
         onClick={openChainSelect}
       >
         {
-          loading || !chain ? (
+          loading || !chainInfo?.chainName ? (
             <Skeleton.Button
               active
               className={classes.skeleton}
@@ -43,7 +44,7 @@ export const ChainName: FC<BareProps> = ({ className }) => {
                 className={classes.chainName}
               >
                 <AcalaIcon className={classes.chainIcon} />
-                {chain}
+                {chainInfo.chainName}
               </div>
             </>
           )

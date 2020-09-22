@@ -1,6 +1,5 @@
 /* eslint-disable sort-keys */
 
-import { WsProvider } from '@polkadot/api';
 
 export type EndpointType = 'testnet' | 'production' | 'development';
 

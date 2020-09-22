@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect } from 'react';
 
-import { useIsAppReady } from '@acala-dapp/react-hooks';
+import { useIsAppReady, useApi, useSetting } from '@acala-dapp/react-hooks';
 import { PageLoading } from '@acala-dapp/ui-components';
 
 import { Sidebar, SideBarProps } from '../components/SideBar';
@@ -12,6 +12,16 @@ interface Props {
 
 export const MainLayout: React.FC<PropsWithChildren<Props>> = ({ children, sideBarProps }) => {
   const { appReadyStatus } = useIsAppReady();
+  const { connected, init } = useApi();
+  const { endpoint } = useSetting();
+
+  useEffect(() => {
+    if (connected) return;
+
+    if (!endpoint) return;
+
+    init(endpoint);
+  }, [connected, init, endpoint]);
 
   return (
     <div className={classes.root}>

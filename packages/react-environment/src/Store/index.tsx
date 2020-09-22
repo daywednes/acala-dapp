@@ -10,7 +10,7 @@ const StoreContext = createContext({});
 
 export const StoreProvier: FC<BareProps> = ({ children }) => {
   const { api } = useApi();
-  const { state: pricesStore, setState: setPricesStore } = usePricesStore();
+  // const { state: pricesStore, setState: setPricesStore } = usePricesStore();
 
   useEffect(() => {
     api.isReady && api.isReady.subscribe(() => {
@@ -22,7 +22,6 @@ export const StoreProvier: FC<BareProps> = ({ children }) => {
 
   return (
     <StoreContext.Provider value={{
-      price: pricesStore
     }}>
       {children}
     </StoreContext.Provider>

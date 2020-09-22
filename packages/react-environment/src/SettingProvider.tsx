@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { noop } from 'lodash';
 import { useModal } from '@acala-dapp/react-hooks';
 
-import { DEFAULT_ENDPOINTS, EndpointConfig } from './utils/endpoints';
+import { DEFAULT_ENDPOINTS, EndpointConfig } from './configs/endpoints';
 
 export type Language = 'zh' | 'en';
 export type Theme = 'normal' | 'dark';

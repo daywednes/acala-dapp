@@ -1,6 +1,10 @@
-import { Fixed18 } from '@acala-network/app-util';
 import { ApiRx } from '@polkadot/api';
+import { interval, Observable, combineLatest } from 'rxjs'
+import { startWith, mergeMap } from 'rxjs/operators'
 
+import { TimestampedValue } from '@open-web3/orml-types/interfaces';
+import { Fixed18 } from '@acala-network/app-util';
+import { CurrencyId, OracleKey } from '@acala-network/types/interfaces';
 import { CurrencyLike } from '@acala-dapp/react-hooks/types';
 
 import { createStore } from '../createStore';
@@ -12,10 +16,13 @@ export const usePricesStore = createStore<Record<string, Fixed18>>({}, {
 });
 
 export const subscribePrice = (api: ApiRx, callback: (result: Record<string, Fixed18>) => void): void => {
-  const oracleKeys = api.registry.createType('OracleKey' as any);
+  const nativeCurrency = api.consts.currencies.nativeCurrencyId as unknown as CurrencyId;
 
-  api.query.acalaOracle.values.multi(oracleKeys.defKeys).subscribe((result) => {
-    result.map((item) => {
-    });
-  });
+  // get oracle feed value from chain
+  const oracleFeeds$ = interval(1000 * 60)
+    .pipe(
+      startWith(0),
+      mergeMap(
+        () => (api.rpc as any).oracle.getAllValues('Aggregated') as Observable<[OracleKey, TimestampedValue][]>
+      ));
 };
