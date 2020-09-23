@@ -24,18 +24,18 @@ export type IconType = 'copy' | 'swap' | 'edit' | 'close';
 
 export const getIcon = (name: IconType): ReactNode => {
   if (name === 'copy') {
-    return <CopyIcon />;
+    return <CopyIcon title='copy' />;
   }
 
   if (name === 'swap') {
-    return <SwapIcon />;
+    return <SwapIcon title='swap' />;
   }
 
   if (name === 'edit') {
-    return <EditIcon />;
+    return <EditIcon title='edit' />;
   }
 
   if (name === 'close') {
-    return <CloseIcon />;
+    return <CloseIcon title='close' />;
   }
 };
