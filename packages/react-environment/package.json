@@ -5,7 +5,6 @@
   "main": "index.js",
   "author": "Acala Developers <hello@acala.network>",
   "homepage": "https://github.com/AcalaNetwork/acala-dapp#readme",
-  "license": "Apache-2.0",
   "dependencies": {
     "@acala-network/api": "beta",
     "@polkadot/api": "^1.10.1",

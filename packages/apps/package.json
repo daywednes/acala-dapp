@@ -4,7 +4,6 @@
   "main": "index.js",
   "author": "Acala Developers <hello@acala.network>",
   "homepage": ".",
-  "license": "Apache-2.0",
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "apollo-boost": "^0.4.9",
