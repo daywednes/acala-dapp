@@ -4,7 +4,7 @@ import { CurrencyId } from '@acala-network/types/interfaces';
 import { Fixed18 } from '@acala-network/app-util';
 
 import { tokenEq } from '@acala-dapp/react-components';
-import { PriceData } from '@acala-dapp/react-components/RxStore/type';
+import { PriceData } from '@acala-dapp/react-environment/RxStore/type';
 
 import { useRxStore } from './useRxStore';
 

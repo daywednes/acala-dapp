@@ -22,9 +22,7 @@ describe('test utils', () => {
   });
 
   test('getTokenName should work', () => {
-    expect(getTokenName('AUSD')).toEqual('aUSD');
-    expect(getTokenName('ausd')).toEqual('aUSD');
-    expect(getTokenName('aca')).toEqual('ACA');
+    expect(getTokenName('AUSD')).toEqual('aUSD(TEST)');
   });
 
   test('formatHash should work', () => {

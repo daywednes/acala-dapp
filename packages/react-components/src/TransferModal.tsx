@@ -108,7 +108,6 @@ interface TransferFormProps {
 const TransferForm: FC<TransferFormProps> = ({
   currency,
   onAccountChange,
-  onAccountError,
   onBalanceChange,
   onBalanceError,
   onCurrencyChange
@@ -126,7 +125,6 @@ const TransferForm: FC<TransferFormProps> = ({
           id='account'
           name='account'
           onChange={onAccountChange}
-          onError={onAccountError}
         />
       </FormItem>
       <FormItem

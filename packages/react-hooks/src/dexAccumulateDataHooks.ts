@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { PoolInfo, Share } from '@open-web3/orml-types/interfaces';
 import { convertToFixed18, Fixed18 } from '@acala-network/app-util';
 import { DerivedDexPool } from '@acala-network/api-derive';
+import { Balance, CurrencyId } from '@acala-network/types/interfaces';
 
 import { tokenEq } from '@acala-dapp/react-components';
 

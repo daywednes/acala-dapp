@@ -5,7 +5,7 @@ import { AddressInput } from '@acala-dapp/react-components/AddressInput';
 import { FormatAddress } from '@acala-dapp/react-components';
 
 import classes from './AddressInput.module.scss';
-import { AddressInfo } from '@acala-dapp/react-environment/';
+import { AddressInfo } from '@acala-dapp/react-environment';
 
 export interface AddressToInputProps {
   from?: string;

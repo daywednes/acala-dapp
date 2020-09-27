@@ -2,7 +2,7 @@ import React, { FC, useCallback, useState, useEffect } from 'react';
 
 import { useSetting } from '@acala-dapp/react-hooks';
 import { Dialog, Button, Radio } from '@acala-dapp/ui-components';
-import { EndpointConfigItem, EndpointType } from '@acala-dapp/react-environment/utils/endpoints';
+import { EndpointConfigItem, EndpointType } from '@acala-dapp/react-environment/configs/endpoints';
 
 import classes from './SelectNetwork.module.scss';
 
